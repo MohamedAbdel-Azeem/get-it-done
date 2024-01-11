@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'headingText';
+    src: url('./assets/fonts/Lexend-Medium.ttf') format('truetype');
+}
+
+
 *{
     margin: 0;
     padding: 0;
