@@ -25,6 +25,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "dragee": "^1.1.8",
     "lodash": "^4.17.21",
     "sweetalert2": "^11.10.3"
   }

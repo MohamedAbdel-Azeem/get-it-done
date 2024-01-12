@@ -8,6 +8,11 @@
     src: url('./assets/fonts/ZillaSlab-Regular.ttf') format('truetype');
 }
 
+@font-face{
+    font-family: 'bodyText';
+    src: url('./assets/fonts/LexendExa-Regular.ttf') format('truetype');
+}
+
 *{
     margin: 0;
     padding: 0;

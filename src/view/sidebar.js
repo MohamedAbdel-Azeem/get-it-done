@@ -1,5 +1,10 @@
 import Swal from 'sweetalert2'
+
+
 import {ProjectElement} from "../model/project-element.js";
+import { displayProjectContent } from './content.js';
+import { result } from 'lodash';
+import { list } from 'postcss';
 
 export function createSidebar(projectsList){
 
@@ -48,11 +53,9 @@ export function createSidebar(projectsList){
 
 
 function projectListElement(projectsList){
-
     let unorderedList = document.createElement('ul');
     unorderedList.classList = 'w-full flex flex-col text-center';
 
-    
     if (projectsList.length === 0) {
         let emptyListItem = document.createElement('li');
         emptyListItem.textContent = 'No projects found !';
@@ -63,7 +66,8 @@ function projectListElement(projectsList){
         projectsList.forEach((project, index) => {
             let listItem = document.createElement('li');
             let listbutton = document.createElement('button');
-            
+        
+
             listbutton.classList = 'w-full hover:scale-y-105 cursor-pointer text-slate-900 dark:text-slate-50 text-lg max-md:text-sm bg-slate-100 dark:bg-indigo-950 shadow-md hover:shadow-lg p-3 transition-all duration-300';
             listbutton.textContent = project.title;
             listbutton.style.fontFamily = 'headingText';
@@ -72,11 +76,15 @@ function projectListElement(projectsList){
                 listItem.classList.add('border-b-2');
             }
             
+            listbutton.addEventListener('click', () => {
+                displayProjectContent(project);
+            });
+
+            listbutton.appendChild(svgImg);
             listItem.appendChild(listbutton);
             unorderedList.appendChild(listItem);
         });
     }
-
     return unorderedList;
 }
 

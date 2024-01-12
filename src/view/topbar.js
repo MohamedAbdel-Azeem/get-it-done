@@ -13,7 +13,7 @@ export function createTopBar(){
 
 
     topBar.id = 'top-bar';
-    topBar.className = 'w-full bg-slate-100 dark:bg-blue-900 flex flex-row space-x-4 items-center justify-center max-md:start';
+    topBar.className = 'w-full bg-slate-100 dark:bg-indigo-900 flex flex-row space-x-4 items-center justify-center max-md:start';
     title.className =  'text-5xl text-slate-950 dark:text-slate-50 max-md:text-2xl transition-all duration-500';
     span.className = 'text-6xl text-green-600 dark:text-green-400 max-md:text-3xl';
     title.textContent = 'Get it ';

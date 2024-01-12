@@ -6,6 +6,7 @@ import css from "./styles.css";
 
 import { createSidebar } from './sidebar.js';
 import { createTopBar } from './topbar.js';
+import { initialContent } from './content.js';
 
 import {todoElement} from "../model/todo-element.js";
 import {todoList} from "../model/todo-list.js";
@@ -22,12 +23,10 @@ const myTodoList = new todoList();
 function mainTag(){
   const main = document.createElement('main');
   
-  const content = document.createElement('div');
-
-  content.id = 'content';
+  const content = initialContent();
   const sidebarElement = createSidebar(myTodoList.projects);
-    // Append elements
 
+  // Append elements
   main.appendChild(sidebarElement);
   main.appendChild(content);
 
