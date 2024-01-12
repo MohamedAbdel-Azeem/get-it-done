@@ -80,7 +80,6 @@ function projectListElement(projectsList){
                 displayProjectContent(project);
             });
 
-            listbutton.appendChild(svgImg);
             listItem.appendChild(listbutton);
             unorderedList.appendChild(listItem);
         });
