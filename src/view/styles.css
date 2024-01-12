@@ -3,6 +3,10 @@
     src: url('./assets/fonts/Lexend-Medium.ttf') format('truetype');
 }
 
+@font-face{
+    font-family: 'lowerHeaders';
+    src: url('./assets/fonts/ZillaSlab-Regular.ttf') format('truetype');
+}
 
 *{
     margin: 0;
