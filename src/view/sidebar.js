@@ -101,11 +101,14 @@ async function addProjectModal(projectsList){
         ];
     }
     });
-    if (formValues[0].trim() === '' || projectsList.includes(formValues[0])){
+    if (formValues[0].trim() === '' || projectsList.some(project => project.title === formValues[0])){
         Swal.fire({
             title: "Invalid Input",
             text: "Please enter valid input",
             icon: "error",
+            confirmButtonColor: document.documentElement.classList.contains('dark') ? "#4ade80" : "#16a34a",
+            background: document.documentElement.classList.contains('dark') ? "#312e81" : "#e2e8f0",
+            color: document.documentElement.classList.contains('dark') ? "#f8fafc" : "#0f172a",
             confirmButtonText: "Ok",
         });
     } else {
