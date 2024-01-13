@@ -2,12 +2,21 @@ import Swal from 'sweetalert2'
 
 
 import {ProjectElement} from "../model/project-element.js";
-import { displayProjectContent } from './content.js';
+import { displayProjectContent , initialContent } from './content.js';
+import { myTodoList } from './index.js';
+
 import { result } from 'lodash';
 import { list } from 'postcss';
 
-export function createSidebar(projectsList){
+const deleteIcon = 
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ef4444" width=25> 
+        <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+    </svg>`;
 
+
+
+export function createSidebar(){
+    let projectsList = myTodoList.projects;
     const sidebar = document.createElement('aside');
     const projectsHeader = document.createElement('h3');
     const addProjectButton = document.createElement('button');
@@ -53,6 +62,7 @@ export function createSidebar(projectsList){
 
 
 function projectListElement(projectsList){
+    
     let unorderedList = document.createElement('ul');
     unorderedList.classList = 'w-full flex flex-col text-center';
 
@@ -66,9 +76,22 @@ function projectListElement(projectsList){
         projectsList.forEach((project, index) => {
             let listItem = document.createElement('li');
             let listbutton = document.createElement('button');
-        
+            
+            let deleteSvg = document.createElement('div');
+            deleteSvg.innerHTML = deleteIcon;
 
-            listbutton.classList = 'w-full hover:scale-y-105 cursor-pointer text-slate-900 dark:text-slate-50 text-lg max-md:text-sm bg-slate-100 dark:bg-indigo-950 shadow-md hover:shadow-lg p-3 transition-all duration-300';
+            listItem.classList = 'w-full flex flex-row justify-between items-center w-full hover:scale-y-105 bg-slate-100 dark:bg-indigo-950 shadow-md hover:shadow-lg p-3 transition-all duration-300 max-md:flex-col max-md:space-y-2';
+
+            let deleteButton = document.createElement('button');
+            deleteButton.addEventListener('click', () => {
+                myTodoList.removeProject(project);
+                unorderedList.innerHTML = '';
+                unorderedList.appendChild(projectListElement(projectsList));
+            });
+
+            deleteButton.appendChild(deleteSvg);
+
+            listbutton.classList = 'cursor-pointer text-slate-900 dark:text-slate-50 text-lg max-md:text-sm';
             listbutton.textContent = project.title;
             listbutton.style.fontFamily = 'headingText';
             
@@ -81,6 +104,7 @@ function projectListElement(projectsList){
             });
 
             listItem.appendChild(listbutton);
+            listItem.appendChild(deleteButton);
             unorderedList.appendChild(listItem);
         });
     }

@@ -13,7 +13,7 @@ import {todoList} from "../model/todo-list.js";
 import {ProjectElement} from "../model/project-element.js";
 
 
-const myTodoList = new todoList();
+export const myTodoList = new todoList();
 
 
 
@@ -24,7 +24,7 @@ function mainTag(){
   const main = document.createElement('main');
   
   const content = initialContent();
-  const sidebarElement = createSidebar(myTodoList.projects);
+  const sidebarElement = createSidebar();
 
   // Append elements
   main.appendChild(sidebarElement);
