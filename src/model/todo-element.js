@@ -5,11 +5,6 @@ export class todoElement{
         this.dueDate = dueDate;
         this.priority = priority;
         this.isDone = false;
-        this.isFavorite = false;
-    }
-
-    toggleFavorite(){
-        this.isFavorite = !this.isFavorite;
     }
 
     toggleDone(){

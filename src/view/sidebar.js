@@ -35,7 +35,7 @@ export function createSidebar(){
 
 
     sidebar.classList = 'h-full bg-slate-200 dark:bg-blue-950 flex flex-col items-center';
-    projectsHeader.className = 'text-center pt-4 underline underline-offset-8 text-3xl text-slate-900 dark:text-slate-50 max-md:text-xl transition-all duration-500 hover:text-4xl hover:max-md:text-2xl';
+    projectsHeader.className = 'text-center pt-4 text-3xl text-slate-900 dark:text-slate-50 max-md:text-xl transition-all duration-500 hover:text-4xl hover:max-md:text-2xl';
     projectsHeader.style.fontFamily = 'lowerHeaders';
     addProjectButton.classList = 'mt-4 bg-slate-300 dark:bg-indigo-900 w-3/4 flex flex-row justify-center items-center rounded-md transition-all duration-300 shadow-md hover:shadow-xl';
 
@@ -87,6 +87,7 @@ function projectListElement(projectsList){
                 myTodoList.removeProject(project);
                 unorderedList.innerHTML = '';
                 unorderedList.appendChild(projectListElement(projectsList));
+                document.querySelector('#content').replaceChildren(initialContent());
             });
 
             deleteButton.appendChild(deleteSvg);

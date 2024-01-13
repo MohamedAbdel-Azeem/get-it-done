@@ -5,6 +5,16 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({addUtilities}) {
+      const extendLineThrough = {
+          '.line-through': {
+              'textDecoration': 'line-through',
+              'text-decoration-thickness': '1.5px'
+          },
+      }
+      addUtilities(extendLineThrough)
+    }
+  ],
 }
 
