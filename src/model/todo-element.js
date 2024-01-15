@@ -27,8 +27,5 @@ export class todoElement{
         this.dueDate = newDueDate;
     }
 
-    get GetTodoElement(){
-        return this;
-    }
 
 }

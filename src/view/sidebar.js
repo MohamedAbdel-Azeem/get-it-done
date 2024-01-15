@@ -146,5 +146,6 @@ async function addProjectModal(projectsList){
     } else {
         const project = new ProjectElement(formValues[0]);
         projectsList.push(project);
+        myTodoList.updateLocalStorage();
     }
 }

@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 
 import { todoElement } from "../model/todo-element.js";
+import { myTodoList } from "./index.js";
 
 const global_common_style = 'bg-zinc-100 dark:bg-violet-950';
 
@@ -117,6 +118,7 @@ function renderTodoElement(task, project) {
     checkboxInput.type = "checkbox";
     checkboxInput.addEventListener('change', () => {
         task.toggleDone();
+        myTodoList.updateLocalStorage();
         console.log(project.todoList)
         Result.classList.toggle('line-through');
     });
@@ -194,6 +196,7 @@ function renderTodoElement(task, project) {
     // Delete Button Functionality
     deleteButton.addEventListener('click', () => {
         project.removeTodoElement(task);
+        myTodoList.updateLocalStorage();
         Result.style.transform = 'translateX(100%)';
         Result.style.opacity = '0';
         setTimeout(() => {
@@ -260,6 +263,7 @@ async function showAddTaskModal(project) {
         });
     } else {
         project.addTodoElement(new todoElement(formValues[0], formValues[1], formValues[2], formValues[3]));
+        myTodoList.updateLocalStorage();
         displayProjectContent(project);
     }
 }
