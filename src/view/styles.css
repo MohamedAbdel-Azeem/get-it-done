@@ -13,6 +13,19 @@
   src: url("./assets/fonts/LexendExa-Regular.ttf") format("truetype");
 }
 
+:root{
+    --stroke-correct-color: #16a34a;
+    --border-color: #020617;
+}
+
+:root.dark{
+    --stroke-correct-color: #4ade80;
+    --border-color: #f1f5f9;
+}
+
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -53,7 +66,7 @@ main {
   transform: rotateX(30deg);
 }
 .checkbox-wrapper-44 .toggleButton input + div {
-  border: 3px solid rgba(0, 0, 0, 0.2);
+  border: 3px solid var(--border-color);
   border-radius: 50%;
   position: relative;
   width: 44px;
@@ -62,7 +75,7 @@ main {
 .checkbox-wrapper-44 .toggleButton input + div svg {
   fill: none;
   stroke-width: 3.6;
-  stroke: #000;
+  stroke: var(--border-color);
   stroke-linecap: round;
   stroke-linejoin: round;
   width: 44px;
@@ -83,12 +96,14 @@ main {
   content: "";
   width: 3px;
   height: 16px;
-  background: #000;
+  background: var(--border-color);
   position: absolute;
   left: 50%;
   top: 50%;
   border-radius: 5px;
 }
+
+
 .checkbox-wrapper-44 .toggleButton input + div:before {
   opacity: 0;
   transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
@@ -105,7 +120,10 @@ main {
   stroke-dashoffset: 162.6;
   stroke-dasharray: 0 162.6 28 134.6;
   transition: all 0.4s ease 0.2s;
+  stroke: var(--stroke-correct-color);
 }
+
+
 .checkbox-wrapper-44 .toggleButton input:checked + div:before {
   opacity: 0;
   transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
