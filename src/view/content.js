@@ -2,8 +2,6 @@ import Swal from 'sweetalert2'
 
 import { todoElement } from "../model/todo-element.js";
 
-
-
 const global_common_style = 'bg-zinc-100 dark:bg-violet-950';
 
 
@@ -106,13 +104,48 @@ function renderTodoElement(task, project) {
 
     // Check Box
 
-    const checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    checkBox.className = 'w-7 h-7';
-    checkBox.addEventListener('change', () => {
+    // Creating the div element with class "checkbox-wrapper-44"
+    const checkboxWrapper = document.createElement("div");
+    checkboxWrapper.className = "checkbox-wrapper-44";
+
+    // Creating the label element with class "toggleButton"
+    const label = document.createElement("label");
+    label.className = "toggleButton";
+
+    // Creating the input element with type "checkbox"
+    const checkboxInput = document.createElement("input");
+    checkboxInput.type = "checkbox";
+    checkboxInput.addEventListener('change', () => {
         task.toggleDone();
+        console.log(project.todoList)
         Result.classList.toggle('line-through');
     });
+
+    // Creating the div element inside the label
+    const divInsideLabel = document.createElement("div");
+
+    // Creating the svg element with viewBox and path
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 44 44");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758");
+    path.setAttribute("transform", "translate(-2.000000, -2.000000)");
+
+    // Appending the path to the svg
+    svg.appendChild(path);
+
+    // Appending the svg to the div
+    divInsideLabel.appendChild(svg);
+
+    // Appending the checkboxInput and divInsideLabel to the label
+    label.appendChild(checkboxInput);
+    label.appendChild(divInsideLabel);
+
+    // Appending the label to the checkboxWrapper
+    checkboxWrapper.appendChild(label);
+
+
 
     // Task Card
     const taskElement = document.createElement('div');
@@ -168,8 +201,13 @@ function renderTodoElement(task, project) {
         }, 300);
     });
 
+    if (task.isDone){
+        checkboxInput.checked = true;
+        Result.classList.add('line-through');
+    }
+
     // Add Check Box to The Result
-    Result.appendChild(checkBox);
+    Result.appendChild(checkboxWrapper);
     // Add task Card to The Result
     Result.appendChild(taskElement);
     // Add Delete Button to The Result
@@ -190,7 +228,7 @@ async function showAddTaskModal(project) {
         html: `
             <div>
             <input id="swal-input1" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Task Name" required>
-            <input id="swal-input2" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Task Description (Optional)" required>
+            <input id="swal-input2" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Description (Optional)" required>
             <input id="swal-input3" type="date" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50 dark:fill-slate-200 dark:text-slate-200" placeholder="Due Date" required>
             <select id="swal-input4" class="swal2-input text-slate-950 bg-indigo-100 dark:bg-indigo-900 outline outline-1 outline-slate-700 dark:outline-slate-200 dark:text-slate-200 whitespace-nowrap rounded transition duration-150 ease-in-out" required>
                 <option value="" disabled selected>Priority</option>

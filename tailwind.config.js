@@ -14,7 +14,7 @@ module.exports = {
           },
       }
       addUtilities(extendLineThrough)
-    }
+    },
   ],
 }
 
