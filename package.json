@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "dragee": "^1.1.8",
+    "flatpickr": "^4.6.13",
     "lodash": "^4.17.21",
     "sweetalert2": "^11.10.3"
   }

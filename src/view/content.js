@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import { todoElement } from "../model/todo-element.js";
 import { myTodoList } from "./index.js";
@@ -222,6 +222,7 @@ function renderTodoElement(task, project) {
 
 // Function to show Modal to Add New Task
 async function showAddTaskModal(project) {
+
     const { value: formValues } = await Swal.fire({
         title: "Add New Task",
         confirmButtonText: "Add Task",
@@ -232,8 +233,11 @@ async function showAddTaskModal(project) {
             <div>
             <input id="swal-input1" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Task Name" required>
             <input id="swal-input2" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Description (Optional)" required>
+            <div>
+            <label for="swal-input3">Due Date:</label>
             <input id="swal-input3" type="date" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50 dark:fill-slate-200 dark:text-slate-200" placeholder="Due Date" required>
-            <select id="swal-input4" class="swal2-input text-slate-950 bg-indigo-100 dark:bg-indigo-900 outline outline-1 outline-slate-700 dark:outline-slate-200 dark:text-slate-200 whitespace-nowrap rounded transition duration-150 ease-in-out max-md:mt-2" required>
+            </div>
+            <select id="swal-input4" class="swal2-input text-slate-950 bg-indigo-100 dark:bg-indigo-900 outline outline-1 outline-slate-700 dark:outline-slate-200 dark:text-slate-200 whitespace-nowrap rounded transition duration-150 ease-in-out mt-2" required>
                 <option value="" disabled selected>Priority</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
@@ -243,13 +247,13 @@ async function showAddTaskModal(project) {
         `,
         focusConfirm: false,
         preConfirm: () => {
-        return [
-            document.getElementById("swal-input1").value, // 0 corresponds to Title
-            document.getElementById("swal-input2").value, // 1 corresponds to Description
-            document.getElementById("swal-input3").value, // 2 corresponds to Due Date
-            document.getElementById("swal-input4").value, // 3 corresponds to Priority
-        ];
-    }
+            return [
+                document.getElementById('swal-input1').value,
+                document.getElementById('swal-input2').value,
+                document.getElementById('swal-input3').value,
+                document.getElementById('swal-input4').value
+            ]
+        }
     });
     if (formValues[0].trim() === '' || project.todoList.some(task => task.title === formValues[0]) || formValues[2].trim() === '' || formValues[3].trim() === ''){
         Swal.fire({
