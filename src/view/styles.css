@@ -49,11 +49,6 @@ main {
   visibility: hidden;
 }
 
-.checkbox-wrapper-44 *,
-.checkbox-wrapper-44 *::before,
-.checkbox-wrapper-44 *::after {
-  box-sizing: border-box;
-}
 
 .checkbox-wrapper-44 .toggleButton {
   cursor: pointer;

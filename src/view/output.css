@@ -1092,6 +1092,10 @@ video {
     right: 30px;
   }
 
+  .max-md\:mt-2 {
+    margin-top: 0.5rem;
+  }
+
   .max-md\:h-8 {
     height: 2rem;
   }
@@ -1102,6 +1106,14 @@ video {
 
   .max-md\:w-\[25px\] {
     width: 25px;
+  }
+
+  .max-md\:w-1\/2 {
+    width: 50%;
+  }
+
+  .max-md\:w-3\/4 {
+    width: 75%;
   }
 
   .max-md\:flex-col {
