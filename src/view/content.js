@@ -1,7 +1,10 @@
-const global_common_style = 'bg-zinc-100 dark:bg-violet-950';
-
+import Swal from 'sweetalert2'
 
 import { todoElement } from "../model/todo-element.js";
+
+
+
+const global_common_style = 'bg-zinc-100 dark:bg-violet-950';
 
 
 
@@ -53,7 +56,20 @@ export function displayProjectContent(project) {
     projectTitle.className = 'text-3xl underline underline-offset-4 mb-4 dark:text-slate-50 text-left';
     projectTitle.style.fontFamily = 'lowerHeaders';
 
-    content.appendChild(projectTitle);
+    const addTaskButton = document.createElement('button');
+    addTaskButton.textContent = 'Add Task';
+    addTaskButton.className = 'w-32 h-10 max-md:w-24 max-md:h-8 bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 text-white font-bold rounded-md shadow-md ';
+    addTaskButton.style.fontFamily = 'bodyText';
+    addTaskButton.addEventListener('click', () => {
+        showAddTaskModal(project);
+    });
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'flex flex-row justify-between items-center w-full px-4';
+    titleDiv.appendChild(projectTitle);
+    titleDiv.appendChild(addTaskButton);
+
+    content.appendChild(titleDiv);
 
     const tasksDiv = document.createElement('div');
     tasksDiv.id = 'tasks-div';
@@ -160,4 +176,52 @@ function renderTodoElement(task, project) {
     Result.appendChild(deleteButton);
 
     return Result;
+}
+
+
+// Function to show Modal to Add New Task
+async function showAddTaskModal(project) {
+    const { value: formValues } = await Swal.fire({
+        title: "Add New Task",
+        confirmButtonText: "Add Task",
+        confirmButtonColor: document.documentElement.classList.contains('dark') ?  "#16a34a" : "#4ade80",
+        background: document.documentElement.classList.contains('dark') ? "#312e81" : "#e2e8f0",
+        color: document.documentElement.classList.contains('dark') ? "#f8fafc" : "#0f172a",
+        html: `
+            <div>
+            <input id="swal-input1" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Task Name" required>
+            <input id="swal-input2" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Task Description (Optional)" required>
+            <input id="swal-input3" type="date" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50 dark:fill-slate-200 dark:text-slate-200" placeholder="Due Date" required>
+            <select id="swal-input4" class="swal2-input text-slate-950 bg-indigo-100 dark:bg-indigo-900 outline outline-1 outline-slate-700 dark:outline-slate-200 dark:text-slate-200 whitespace-nowrap rounded transition duration-150 ease-in-out" required>
+                <option value="" disabled selected>Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            </div>
+        `,
+        focusConfirm: false,
+        preConfirm: () => {
+        return [
+            document.getElementById("swal-input1").value, // 0 corresponds to Title
+            document.getElementById("swal-input2").value, // 1 corresponds to Description
+            document.getElementById("swal-input3").value, // 2 corresponds to Due Date
+            document.getElementById("swal-input4").value, // 3 corresponds to Priority
+        ];
+    }
+    });
+    if (formValues[0].trim() === '' || project.todoList.some(task => task.title === formValues[0]) || formValues[2].trim() === '' || formValues[3].trim() === ''){
+        Swal.fire({
+            title: "Invalid Input",
+            text: "Please enter valid input, and make sure that the task name is unique, and all fields are filled.",
+            icon: "error",
+            confirmButtonColor: document.documentElement.classList.contains('dark') ? "#4ade80" : "#16a34a",
+            background: document.documentElement.classList.contains('dark') ? "#312e81" : "#e2e8f0",
+            color: document.documentElement.classList.contains('dark') ? "#f8fafc" : "#0f172a",
+            confirmButtonText: "Close",
+        });
+    } else {
+        project.addTodoElement(new todoElement(formValues[0], formValues[1], formValues[2], formValues[3]));
+        displayProjectContent(project);
+    }
 }

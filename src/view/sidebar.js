@@ -118,7 +118,7 @@ async function addProjectModal(projectsList){
     const { value: formValues } = await Swal.fire({
         title: "Add Project",
         confirmButtonText: "Add Project",
-        confirmButtonColor: document.documentElement.classList.contains('dark') ? "#4ade80" : "#16a34a",
+        confirmButtonColor: document.documentElement.classList.contains('dark') ? "#16a34a" : "#4ade80",
         background: document.documentElement.classList.contains('dark') ? "#312e81" : "#e2e8f0",
         color: document.documentElement.classList.contains('dark') ? "#f8fafc" : "#0f172a",
         html: `
