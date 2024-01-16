@@ -1,4 +1,4 @@
-import { has } from 'lodash';
+import { get, has } from 'lodash';
 import { myTodoList } from './index.js';
 
 function InitializeCalendar(){
@@ -92,31 +92,59 @@ function SetupCalendar(specificDates){
 
     const renderCalendar = () => {
         let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
-        lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
-        lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
-        lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
-        let liTag = "";
+            lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
+            lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
+            lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
+        const ulTag = [];
 
         for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
-            liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
+            const li = document.createElement('li');
+            li.className = "inactive";
+            li.textContent = lastDateofLastMonth - i + 1;
+            ulTag.push(li);
         }
 
         for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
             // adding active class to li if the current day, month, and year matched
             let isToday = i === date.getDate() && currMonth === new Date().getMonth()
-                        && currYear === new Date().getFullYear() ? "active" : "";
+                && currYear === new Date().getFullYear() ? "active" : "";
             // format the date as 'yyyy-mm-dd'
-            let formattedDate = `${currYear}-${("0" + (currMonth+1)).slice(-2)}-${("0" + i).slice(-2)}`;
+            let formattedDate = `${currYear}-${("0" + (currMonth + 1)).slice(-2)}-${("0" + i).slice(-2)}`;
             // check if the date is in the specificDates array
             let isSpecialDate = specificDates.includes(formattedDate) ? " special-date" : "";
-            liTag += `<li class="${isToday}${isSpecialDate}">${i}</li>`;
+
+            if (isSpecialDate == " special-date") {
+                const li = document.createElement('li');
+                li.className = `${isToday}${isSpecialDate}`;
+
+                const button = document.createElement('button');
+                button.textContent = i;
+
+                // Re-Direct the User to a Page with the List of Tasks for that Day
+                button.addEventListener('click', () => {
+                    displayProjectContent(formattedDate);
+                });
+
+                li.appendChild(button);
+                ulTag.push(li);
+            } else {
+                const li = document.createElement('li');
+                li.className = `${isToday}${isSpecialDate}`;
+                li.textContent = i;
+                ulTag.push(li);
+            }
         }
 
         for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-            liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
+            for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
+                const li = document.createElement('li');
+                li.className = "inactive";
+                li.textContent = i - lastDayofMonth + 1;
+                ulTag.push(li);
+            }
         }
         currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
-        daysTag.innerHTML = liTag;
+        daysTag.append(...ulTag); // appending all li to ul tag
     }
     renderCalendar();
 
@@ -154,3 +182,68 @@ export function Calendar(){
     SetupCalendar(dueDates); 
 }
 
+function getDayProjectTasks(date){
+    let tasks = [];
+
+    myTodoList.projects.forEach(project => {
+        let filteredTasks = project.todoList.filter(task => {
+            // return true if the task should be included in the filteredTasks
+            return task.dueDate === date;
+        });
+        if (filteredTasks.length > 0){
+            tasks = tasks.concat({
+                project: project.title,
+                dayTasks: filteredTasks
+            });
+        }
+    });
+    console.log(tasks);
+    return tasks;
+}
+
+function displayProjectContent(date) {
+    const projectsList = getDayProjectTasks(date);
+
+    const container = document.createElement('div');
+
+    const PageHeader = document.createElement('h1');
+    PageHeader.textContent = `Tasks for ${date}`;
+    container.appendChild(PageHeader);
+
+    projectsList.forEach(project => {
+        const header = document.createElement('h2');
+        header.textContent = project.project;
+        container.appendChild(header);
+
+        const count = document.createElement('span');
+        count.textContent = `${project.dayTasks.length} tasks due`;
+        header.appendChild(count);
+
+        const arrow = document.createElement('span');
+        arrow.textContent = '▼';
+        arrow.style.cursor = 'pointer';
+        header.appendChild(arrow);
+
+        const tasksContainer = document.createElement('div');
+        tasksContainer.style.display = 'none';
+        container.appendChild(tasksContainer);
+
+        arrow.addEventListener('click', () => {
+            if (tasksContainer.style.display === 'none') {
+                tasksContainer.style.display = 'block';
+                arrow.textContent = '▲';
+            } else {
+                tasksContainer.style.display = 'none';
+                arrow.textContent = '▼';
+            }
+        });
+
+        project.dayTasks.forEach(task => {
+            const taskElement = document.createElement('p');
+            taskElement.textContent = task.title;
+            tasksContainer.appendChild(taskElement);
+        });
+    });
+
+    document.querySelector('#content').replaceChildren(container);
+}
