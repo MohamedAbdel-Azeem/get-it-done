@@ -98,7 +98,7 @@ const deleteIcon =
     </svg>`;
 
 // Function to Render Each To Do Element inside the Project
-function renderTodoElement(task, project) {
+export function renderTodoElement(task, project) {
     const Result = document.createElement('div');
     Result.className =
         'flex flex-row items-center w-full space-x-4 transition-all duration-300 ease transform ${task.isDone ? "line-through" : ""}';
@@ -222,7 +222,7 @@ function renderTodoElement(task, project) {
 
 // Function to show Modal to Add New Task
 async function showAddTaskModal(project) {
-
+    let today = new Date().toISOString().split('T')[0];
     const { value: formValues } = await Swal.fire({
         title: "Add New Task",
         confirmButtonText: "Add Task",
@@ -235,7 +235,7 @@ async function showAddTaskModal(project) {
             <input id="swal-input2" type="text" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50" placeholder="Description (Optional)" required>
             <div>
             <label for="swal-input3">Due Date:</label>
-            <input id="swal-input3" type="date" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50 dark:fill-slate-200 dark:text-slate-200" placeholder="Due Date" required>
+            <input id="swal-input3" type="date" class="swal2-input bg-indigo-100 dark:bg-indigo-900 placeholder-slate-400 dark:placeholder-slate-50 dark:fill-slate-200 dark:text-slate-200" min="${today}" placeholder="Due Date" required>
             </div>
             <select id="swal-input4" class="swal2-input text-slate-950 bg-indigo-100 dark:bg-indigo-900 outline outline-1 outline-slate-700 dark:outline-slate-200 dark:text-slate-200 whitespace-nowrap rounded transition duration-150 ease-in-out mt-2" required>
                 <option value="" disabled selected>Priority</option>

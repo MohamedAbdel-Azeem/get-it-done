@@ -1,4 +1,4 @@
-import { get, has } from 'lodash';
+import { renderTodoElement } from './content.js';
 import { myTodoList } from './index.js';
 
 function InitializeCalendar(){
@@ -172,7 +172,7 @@ export function Calendar(){
 
     myTodoList.projects.forEach(project => {
         project.todoList.forEach(todo => {
-            if (! dueDates.includes(todo.dueDate)){
+            if (! dueDates.includes(todo.dueDate) && ! todo.isDone){
                 dueDates.push(todo.dueDate);
             }
         });
@@ -188,7 +188,7 @@ function getDayProjectTasks(date){
     myTodoList.projects.forEach(project => {
         let filteredTasks = project.todoList.filter(task => {
             // return true if the task should be included in the filteredTasks
-            return task.dueDate === date;
+            return task.dueDate === date && ! task.isDone;
         });
         if (filteredTasks.length > 0){
             tasks = tasks.concat({
@@ -197,10 +197,13 @@ function getDayProjectTasks(date){
             });
         }
     });
-    console.log(tasks);
     return tasks;
 }
 
+
+
+
+// Display ALL The Tasks Per Each Project of a Specific Date in the Content Div
 function displayProjectContent(date) {
     const projectsList = getDayProjectTasks(date);
 
@@ -208,20 +211,26 @@ function displayProjectContent(date) {
 
     const PageHeader = document.createElement('h1');
     PageHeader.textContent = `Tasks for ${date}`;
+    PageHeader.classList = 'text-3xl max-md:text-2xl font-bold text-slate-900 dark:text-slate-50 text-center my-4';
+    PageHeader.style.fontFamily = 'headingText';
     container.appendChild(PageHeader);
 
     projectsList.forEach(project => {
         const header = document.createElement('h2');
         header.textContent = project.project;
+        header.classList = 'text-2xl max-md:text-xl font-bold text-slate-900 dark:text-slate-50 my-4';
         container.appendChild(header);
 
+        let counter = project.dayTasks.length;
         const count = document.createElement('span');
-        count.textContent = `${project.dayTasks.length} tasks due`;
+        count.textContent = `${counter} tasks due`;
+        count.classList = 'text-xl max-md:text-lg italic text-slate-500 dark:text-slate-400 mx-4 my-4';
         header.appendChild(count);
 
         const arrow = document.createElement('span');
-        arrow.textContent = '▼';
+        arrow.textContent = 'expand_more';
         arrow.style.cursor = 'pointer';
+        arrow.classList.add('material-symbols-outlined');
         header.appendChild(arrow);
 
         const tasksContainer = document.createElement('div');
@@ -231,19 +240,42 @@ function displayProjectContent(date) {
         arrow.addEventListener('click', () => {
             if (tasksContainer.style.display === 'none') {
                 tasksContainer.style.display = 'block';
-                arrow.textContent = '▲';
+                arrow.style.transform = 'rotate(180deg)';
+                arrow.style.transition = 'transform 0.3s ease-in-out'; // Add transition effect
             } else {
                 tasksContainer.style.display = 'none';
-                arrow.textContent = '▼';
+                arrow.style.transform = 'rotate(0deg)';
+                arrow.style.transition = 'transform 0.3s ease-in-out'; // Add transition effect
             }
         });
 
         project.dayTasks.forEach(task => {
-            const taskElement = document.createElement('p');
-            taskElement.textContent = task.title;
+            const taskElement = renderTodoElement(task);
+            const taskCheckBox = taskElement.querySelector('input[type="checkbox"]');
+            taskCheckBox.addEventListener('change', () => {
+                taskElement.style.transform = 'translateX(100%)';
+                taskElement.style.opacity = '0';
+                setTimeout(() => {
+                    tasksContainer.removeChild(taskElement);
+                    const remainingTasks = tasksContainer.querySelectorAll('.task-element');
+                    remainingTasks.forEach((remainingTask, index) => {
+                        remainingTask.style.transform = `translateY(-${index * 100}%)`;
+                    });
+                }, 300);
+                counter--;
+                count.textContent = `${counter} tasks due`;
+            });
+            taskElement.classList.add('my-4');
             tasksContainer.appendChild(taskElement);
         });
+
+        const horizontalLine = document.createElement('hr');
+        horizontalLine.classList = 'border-slate-400 dark:border-indigo-800 my-4 w-3/4';
+        container.appendChild(horizontalLine);
     });
 
-    document.querySelector('#content').replaceChildren(container);
+    const contentDiv = document.querySelector('#content');
+    contentDiv.innerHTML = '';
+    contentDiv.classList = 'flex flex-col bg-slate-100 dark:bg-indigo-950 w-full h-full max-md:justify-start px-8 max-md:px-4 overflow-y-auto overflow-x-auto';
+    contentDiv.appendChild(container);
 }
