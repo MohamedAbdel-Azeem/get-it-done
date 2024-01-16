@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import {ProjectElement} from "../model/project-element.js";
 import { displayProjectContent , initialContent } from './content.js';
 import { myTodoList } from './index.js';
+import { Calendar } from './calendar.js';
 
 import { result } from 'lodash';
 import { list } from 'postcss';
@@ -52,11 +53,23 @@ export function createSidebar(){
         listdiv.appendChild(projectListElement(projectsList));
     });
 
+
+    // Calendar Button
+    const CalendarButton = document.createElement('button');
+    CalendarButton.classList = 'mt-8 text-xl max-md:text-sm p-2 text-slate-950 dark:text-slate-200 bg-slate-300 dark:bg-indigo-900 w-3/4 flex flex-row justify-center items-center rounded-md transition-all duration-300 shadow-md hover:shadow-xl';
+    const CalendarIcon = document.createElement('div');
+    CalendarIcon.textContent = '📆 Calendar';
+    CalendarButton.appendChild(CalendarIcon);
+    CalendarButton.addEventListener('click', () => {
+        Calendar();
+    });
+
     addProjectButton.appendChild(addProjectIcon);
     sidebar.appendChild(projectsHeader);
     sidebar.appendChild(addProjectButton);
     sidebar.appendChild(listdiv);
     listdiv.appendChild(projectListElement(projectsList));
+    sidebar.appendChild(CalendarButton);
     return sidebar;
 }
 
