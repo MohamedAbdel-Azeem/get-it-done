@@ -12,8 +12,9 @@
 }
 
 @font-face {
-  font-family: "bodyText";
+  font-family: "bodyText", Times,'Times New Roman', serif;
   src: url("./assets/fonts/LexendExa-Regular.ttf") format("truetype");
+  font-display: optional;
 }
 
 :root{

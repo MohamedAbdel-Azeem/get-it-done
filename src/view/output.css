@@ -1274,3 +1274,14 @@ video {
     line-height: 2rem;
   }
 }
+
+@media not all and (min-width: 640px) {
+  .max-sm\:collapse {
+    visibility: collapse;
+  }
+
+  .max-sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}

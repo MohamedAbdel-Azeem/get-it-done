@@ -251,6 +251,7 @@ function displayProjectContent(date) {
 
         project.dayTasks.forEach(task => {
             const taskElement = renderTodoElement(task);
+            taskElement.querySelector('p').classList.add('max-sm:collapse');
             const taskCheckBox = taskElement.querySelector('input[type="checkbox"]');
             taskCheckBox.addEventListener('change', () => {
                 taskElement.style.transform = 'translateX(100%)';
@@ -265,7 +266,7 @@ function displayProjectContent(date) {
                 counter--;
                 count.textContent = `${counter} tasks due`;
             });
-            taskElement.classList.add('my-4');
+            taskElement.classList.add('my-4'); // Adds Spacing Between Task Elements
             tasksContainer.appendChild(taskElement);
         });
 
