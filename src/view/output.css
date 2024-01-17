@@ -596,6 +596,11 @@ video {
   margin-bottom: 1rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -614,6 +619,14 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mr-4 {
+  margin-right: 1rem;
 }
 
 .block {
@@ -1223,5 +1236,13 @@ video {
 @media not all and (min-width: 640px) {
   .max-sm\:collapse {
     visibility: collapse;
+  }
+
+  .max-sm\:mr-1 {
+    margin-right: 0.25rem;
+  }
+
+  .max-sm\:w-3\/4 {
+    width: 75%;
   }
 }

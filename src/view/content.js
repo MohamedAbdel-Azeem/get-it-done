@@ -98,7 +98,7 @@ const deleteIcon =
     </svg>`;
 
 // Function to Render Each To Do Element inside the Project
-export function renderTodoElement(task, project) {
+export function renderTodoElement(task, project , fromCalendar = false) {
     const Result = document.createElement('div');
     Result.className =
         'flex flex-row items-center w-full space-x-4 transition-all duration-300 ease transform ${task.isDone ? "line-through" : ""}';
@@ -213,8 +213,10 @@ export function renderTodoElement(task, project) {
     Result.appendChild(checkboxWrapper);
     // Add task Card to The Result
     Result.appendChild(taskElement);
-    // Add Delete Button to The Result
-    Result.appendChild(deleteButton);
+    // Add Delete Button to The Result if not from Calendar View
+    if (!fromCalendar){
+        Result.appendChild(deleteButton);
+    }
 
     return Result;
 }

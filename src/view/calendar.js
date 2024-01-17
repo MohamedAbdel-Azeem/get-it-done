@@ -246,7 +246,7 @@ function displayProjectContent(date) {
         });
 
         project.dayTasks.forEach(task => {
-            const taskElement = renderTodoElement(task);
+            const taskElement = renderTodoElement(task,null,true); // Render the Task Element with true as isCalendar
             taskElement.querySelector('p').classList.add('max-sm:collapse');
             const taskCheckBox = taskElement.querySelector('input[type="checkbox"]');
             taskCheckBox.addEventListener('change', () => {
@@ -262,7 +262,7 @@ function displayProjectContent(date) {
                 counter--;
                 count.textContent = `${counter} tasks due`;
             });
-            taskElement.classList.add('my-4'); // Adds Spacing Between Task Elements
+            taskElement.classList.add('my-4','mr-4','max-sm:mr-1'); // Adds Spacing Between Task Elements
             tasksContainer.appendChild(taskElement);
         });
 
