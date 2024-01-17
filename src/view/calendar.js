@@ -136,14 +136,10 @@ function SetupCalendar(specificDates){
         }
 
         for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-            for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-                const li = document.createElement('li');
-                li.className = "inactive";
-                li.textContent = i - lastDayofMonth + 1;
-                ulTag.push(li);
-            }
+            ulTag.push(document.createElement('li')); // add empty li elements for the remaining days
         }
         currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
+        daysTag.innerHTML = ""; // setting days innerHTML to blank
         daysTag.append(...ulTag); // appending all li to ul tag
     }
     renderCalendar();
